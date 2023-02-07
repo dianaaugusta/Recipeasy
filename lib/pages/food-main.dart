@@ -78,34 +78,46 @@ class _BuildFormState extends State<BuildForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return  Form(
+    return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Enter your email',
-            ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                if (_formKey.currentState!.validate()) {
-                  // Process data.
-                }
-              },
-              child: const Text('Submit'),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 100,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.food_bank,
+                      color: Colors.blueAccent,
+                    ),
+                    alignLabelWithHint: true,
+                    contentPadding: EdgeInsets.all(10),
+                    errorMaxLines: 1,
+                    hintText: 'Pesquise receita por...',
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Validate will return true if the form is valid, or false if
+                  // the form is invalid.
+                  if (_formKey.currentState!.validate()) {
+                    // Process data.
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            ],
           ),
         ],
       ),
@@ -125,12 +137,11 @@ class _BuildCardState extends State<BuildCard> {
   bool isShow = true;
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       children: [
         BuildForm(),
         ListView.builder(
-           scrollDirection: Axis.vertical,
+            scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: widget.model.meals?.length ?? 1,
             itemBuilder: ((context, index) {
@@ -214,12 +225,12 @@ class _BuildCardState extends State<BuildCard> {
     );
   }
 
-  void hideShowRecipe(){
-    setState( () {
-      isShow = !isShow;
-      print(isShow);
+  void hideShowRecipe() {
+    setState(
+      () {
+        isShow = !isShow;
+        print(isShow);
       },
-     );
+    );
   }
-  
 }

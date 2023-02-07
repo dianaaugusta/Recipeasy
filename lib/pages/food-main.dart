@@ -67,6 +67,52 @@ class BuildTopNewsList extends StatelessWidget {
   }
 }
 
+class BuildForm extends StatefulWidget {
+  const BuildForm({super.key});
+
+  @override
+  State<BuildForm> createState() => _BuildFormState();
+}
+
+class _BuildFormState extends State<BuildForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    return  Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration(
+              hintText: 'Enter your email',
+            ),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Validate will return true if the form is valid, or false if
+                // the form is invalid.
+                if (_formKey.currentState!.validate()) {
+                  // Process data.
+                }
+              },
+              child: const Text('Submit'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class BuildCard extends StatefulWidget {
   final FoodModel model;
   const BuildCard({super.key, required this.model});
@@ -80,85 +126,92 @@ class _BuildCardState extends State<BuildCard> {
   @override
   Widget build(BuildContext context) {
     
-    return ListView.builder(
-        itemCount: widget.model.meals?.length ?? 1,
-        itemBuilder: ((context, index) {
-          return Container(
-            margin: const EdgeInsets.all(8.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: [
+    return Column(
+      children: [
+        BuildForm(),
+        ListView.builder(
+           scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: widget.model.meals?.length ?? 1,
+            itemBuilder: ((context, index) {
+              return Container(
+                margin: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network(
+                              "${widget.model.meals?[index].strMealThumb}"),
+                        ),
+                        Text(
+                          widget.model.meals?[index].strMeal ?? "nomeal",
+                          style: const TextStyle(
+                              fontSize: 20, fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
                     Container(
-                      height: 100,
-                      width: 100,
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.network(
-                          "${widget.model.meals?[index].strMealThumb}"),
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            widget.model.meals?[index].strCategory ??
+                                "Sem Categoria",
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                          Text(
+                            widget.model.meals?[index].strSource ?? "Sem fonte",
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      widget.model.meals?[index].strMeal ?? "nomeal",
-                      style: const TextStyle(
-                          fontSize: 20, fontStyle: FontStyle.italic),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => hideShowRecipe(),
+                          child: Text(
+                            isShow ? 'Esconder Receita' : 'Mostrar Receita',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Visibility(
+                      visible: isShow,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.model.meals?[index].strInstructions ??
+                              "Receita indisponível :(",
+                          style: const TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        widget.model.meals?[index].strCategory ??
-                            "Sem Categoria",
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        widget.model.meals?[index].strSource ?? "Sem fonte",
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => hideShowRecipe(),
-                      child: Text(
-                        isShow ? 'Esconder Receita' : 'Mostrar Receita',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: isShow,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.model.meals?[index].strInstructions ??
-                          "Receita indisponível :(",
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }));
+              );
+            })),
+      ],
+    );
   }
 
   void hideShowRecipe(){

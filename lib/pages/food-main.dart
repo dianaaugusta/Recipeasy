@@ -156,100 +156,133 @@ class _BuildCardState extends State<BuildCard> {
       child: Column(
         children: [
           BuildForm(),
-          ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: widget.model.meals?.length ?? 1,
-              itemBuilder: ((context, index) {
-                return Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.60,
-                          width: MediaQuery.of(context).size.width,
-                          child: FittedBox(
-                            child: Image.network(
-                                "${widget.model.meals?[index].strMealThumb}"),
-                            fit: BoxFit.fill,
-                          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: widget.model.meals?.length ?? 1,
+                itemBuilder: ((context, index) {
+                  return Stack(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        width: MediaQuery.of(context).size.width,
+                        child: FittedBox(
+                          child: Image.network(
+                              "${widget.model.meals?[index].strMealThumb}"),
+                          fit: BoxFit.fill,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              widget.model.meals?[index].strMeal ?? "nomeal",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontStyle: FontStyle.italic,
-                              ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.25),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Image.network(
-                                    controller.returnImageCategoryIconUrl(
-                                      widget.model.meals?[index].strCategory ??
-                                          "Miscellaneous",
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.model.meals?[index].strMeal ??
+                                          "nomeal",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: Image.network(
+                                            controller
+                                                .returnImageCategoryIconUrl(
+                                              widget.model.meals?[index]
+                                                      .strCategory ??
+                                                  "Miscellaneous",
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.model.meals?[index]
+                                                  .strCategory ??
+                                              "Sem Categoria",
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  widget.model.meals?[index].strCategory ??
-                                      "Sem Categoria",
-                                  style: const TextStyle(
-                                    fontSize: 10,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () => hideShowRecipe(),
+                                        child: Text(
+                                          isShow
+                                              ? 'Esconder Receita'
+                                              : 'Mostrar Receita',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Expanded(
+                                          child: Text(
+                                            "${widget.model.meals?[index].strSource ?? "Sem Fonte"}",
+                                            maxLines: 1,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis ,
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: isShow,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      widget.model.meals?[index]
+                                              .strInstructions ??
+                                          "Receita indisponível :(",
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => hideShowRecipe(),
-                              child: Text(
-                                isShow ? 'Esconder Receita' : 'Mostrar Receita',
-                                style: TextStyle(fontSize: 10),
-                              ),
-                            ),
-                            Text(
-                              "Fonte : ${widget.model.meals?[index].strSource ?? "Sem Categoria"}",
-                               style: TextStyle(fontSize: 10),
-                            )
-                          ],
-                        ),
-                        Visibility(
-                          visible: isShow,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              widget.model.meals?[index].strInstructions ??
-                                  "Receita indisponível :(",
-                              style: const TextStyle(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              })),
+                      ),
+                    ],
+                  );
+                })),
+          ),
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:generic_business_app/bloc/food-api-bloc.dart';
 import 'package:generic_business_app/model/food-model.dart';
+import 'package:generic_business_app/resources/food-controller.dart';
 
 class FoodMainPage extends StatefulWidget {
   const FoodMainPage({super.key});
@@ -76,7 +77,7 @@ class BuildForm extends StatefulWidget {
 
 class _BuildFormState extends State<BuildForm> {
   final recipeInputController = TextEditingController();
-
+  final FoodController controller = FoodController();
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -147,22 +148,21 @@ class BuildCard extends StatefulWidget {
 }
 
 class _BuildCardState extends State<BuildCard> {
+  final FoodController controller = FoodController();
   bool isShow = true;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BuildForm(),
-        ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: widget.model.meals?.length ?? 1,
-            itemBuilder: ((context, index) {
-              return Expanded(
-                child: Center(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BuildForm(),
+          ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: widget.model.meals?.length ?? 1,
+              itemBuilder: ((context, index) {
+                return Center(
                   child: Container(
-                    margin: const EdgeInsets.all(8.0),
-                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -172,41 +172,49 @@ class _BuildCardState extends State<BuildCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.60,
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              child: Image.network(
-                                "${widget.model.meals?[index].strMealThumb}",
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
+                          height: MediaQuery.of(context).size.width * 0.60,
+                          width: MediaQuery.of(context).size.width,
+                          child: FittedBox(
+                            child: Image.network(
+                                "${widget.model.meals?[index].strMealThumb}"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                         Row(
                           children: [
                             Text(
                               widget.model.meals?[index].strMeal ?? "nomeal",
                               style: const TextStyle(
-                                  fontSize: 20, fontStyle: FontStyle.italic),
+                                fontSize: 20,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ],
                         ),
                         Container(
                           padding: EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                widget.model.meals?[index].strCategory ??
-                                    "Sem Categoria",
-                                style: const TextStyle(
-                                  fontSize: 10,
+                          child: Center(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.network(
+                                    controller.returnImageCategoryIconUrl(
+                                      widget.model.meals?[index].strCategory ??
+                                          "Miscellaneous",
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                widget.model.meals?[index].strSource ?? "Sem fonte",
-                                style: const TextStyle(
-                                  fontSize: 10,
+                                Text(
+                                  widget.model.meals?[index].strCategory ??
+                                      "Sem Categoria",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                  ),
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Row(
@@ -215,9 +223,13 @@ class _BuildCardState extends State<BuildCard> {
                               onPressed: () => hideShowRecipe(),
                               child: Text(
                                 isShow ? 'Esconder Receita' : 'Mostrar Receita',
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 10),
                               ),
                             ),
+                            Text(
+                              "Fonte : ${widget.model.meals?[index].strSource ?? "Sem Categoria"}",
+                               style: TextStyle(fontSize: 10),
+                            )
                           ],
                         ),
                         Visibility(
@@ -236,10 +248,10 @@ class _BuildCardState extends State<BuildCard> {
                       ],
                     ),
                   ),
-                ),
-              );
-            })),
-      ],
+                );
+              })),
+        ],
+      ),
     );
   }
 

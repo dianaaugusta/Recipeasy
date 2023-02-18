@@ -75,6 +75,15 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
+    final recipeInputController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    recipeInputController.dispose();
+    super.dispose();
+  }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -89,6 +98,7 @@ class _BuildFormState extends State<BuildForm> {
               SizedBox(
                 width: 100,
                 child: TextFormField(
+                  controller: recipeInputController,
                   decoration: const InputDecoration(
                     icon: Icon(
                       Icons.food_bank,
@@ -113,6 +123,11 @@ class _BuildFormState extends State<BuildForm> {
                   // the form is invalid.
                   if (_formKey.currentState!.validate()) {
                     // Process data.
+                    BlocProvider.of<FoodApiBloc>(context).add(
+                      FoodListRequested(
+                        //"Arrabiata"
+                        recipeInputController.text
+                    ));
                   }
                 },
                 child: const Text('Submit'),

@@ -8,6 +8,10 @@ class ApiRepository{
     return _provider.fetchRandomFood();
   }
 
+  Future<FoodModel> searchCertainRecipe(String recipeName){
+    return _provider.searchCertainRecipe(recipeName);
+  }
+
 }
 
 class NetworkError extends Error{}

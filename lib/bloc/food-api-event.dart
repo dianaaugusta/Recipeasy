@@ -8,3 +8,11 @@ abstract class FoodApiEvent extends Equatable{
 }
 
 class GetFoodList extends FoodApiEvent{}
+
+class FoodListRequested extends FoodApiEvent{
+
+  final String recipeName
+;
+
+  FoodListRequested(this.recipeName);
+}

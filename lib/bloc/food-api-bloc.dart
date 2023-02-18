@@ -20,5 +20,16 @@ class FoodApiBloc extends Bloc<FoodApiEvent, FoodApiState>{
         emit(FoodApiError("Falha na conexao"));
       }
     }));
+
+    on<FoodListRequested> (((event, emit) async{
+      try{
+        emit(FoodApiLoading());
+        final foodList = await _apiRepository.searchCertainRecipe(event.recipeName);
+        emit(FoodApiLoaded(foodList));
+      }
+      on NetworkError{
+        emit(FoodApiError("Falha na conexao"));
+      }
+    }));
   }
 }

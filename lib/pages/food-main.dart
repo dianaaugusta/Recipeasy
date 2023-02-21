@@ -55,11 +55,11 @@ class BuildTopNewsList extends StatelessWidget {
           child: BlocBuilder<FoodApiBloc, FoodApiState>(
             builder: (context, state) {
               if (state is FoodApiLoading) {
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (state is FoodApiLoaded) {
                 return BuildCard(model: state.foodModel);
               }
-              return Text("404");
+              return const Text("404");
             },
           ),
         ),
@@ -103,7 +103,7 @@ class _BuildFormState extends State<BuildForm> {
                   decoration: const InputDecoration(
                     icon: Icon(
                       Icons.food_bank,
-                      color: Colors.blueAccent,
+                      color: Colors.deepOrange,
                     ),
                     alignLabelWithHint: true,
                     contentPadding: EdgeInsets.all(10),
@@ -155,7 +155,7 @@ class _BuildCardState extends State<BuildCard> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          BuildForm(),
+          const BuildForm(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
@@ -169,9 +169,10 @@ class _BuildCardState extends State<BuildCard> {
                         height: MediaQuery.of(context).size.height * 0.50,
                         width: MediaQuery.of(context).size.width,
                         child: FittedBox(
-                          child: Image.network(
-                              "${widget.model.meals?[index].strMealThumb}"),
                           fit: BoxFit.fill,
+                          child: Image.network(
+                              "${widget.model.meals?[index].strMealThumb}",
+                              ),
                         ),
                       ),
                       Center(
@@ -191,18 +192,21 @@ class _BuildCardState extends State<BuildCard> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      widget.model.meals?[index].strMeal ??
-                                          "nomeal",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontStyle: FontStyle.italic,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        widget.model.meals?[index].strMeal ??
+                                            "nomeal",
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontStyle: FontStyle.italic,
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Center(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -242,7 +246,7 @@ class _BuildCardState extends State<BuildCard> {
                                           isShow
                                               ? 'Esconder Receita'
                                               : 'Mostrar Receita',
-                                          style: TextStyle(fontSize: 10),
+                                          style: const TextStyle(fontSize: 10),
                                         ),
                                       ),
                                       Padding(
@@ -253,7 +257,7 @@ class _BuildCardState extends State<BuildCard> {
                                             maxLines: 1,
                                             softWrap: false,
                                             overflow: TextOverflow.ellipsis ,
-                                            style: TextStyle(fontSize: 10),
+                                            style: const TextStyle(fontSize: 10),
                                           ),
                                         ),
                                       )

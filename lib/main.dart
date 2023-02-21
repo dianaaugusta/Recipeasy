@@ -15,9 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-        fontFamily: GoogleFonts.abel().fontFamily
-      ),
+          primarySwatch: Colors.deepOrange,
+          fontFamily: GoogleFonts.abel().fontFamily),
       home: const FoodFilterChoice(),
     );
   }
@@ -32,17 +31,53 @@ class FoodFilterChoice extends StatelessWidget {
       backgroundColor: Colors.deepOrange,
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("Recipeasy"),
-            FloatingActionButton.large(
-              onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const FoodMainPage()),
-                )
-              )
-          ]
-          ),
+            const Text(
+              "Recipeasy",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 60,
+              ),
+            ),
+            const Text(
+              "Seu app de inspiração culinária",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    height: 100.0,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 50,
+                            width: 200,
+                            color: Colors.deepOrange,
+                            child: FloatingActionButton.extended(
+                              onPressed: () {},
+                              label: Text("TESTE"),
+                              backgroundColor: Colors.white,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                        itemCount: 10),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-  

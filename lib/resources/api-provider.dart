@@ -10,7 +10,6 @@ class ApiProvider {
   
   Future<FoodModel> fetchRandomFood() async{
       Response response = await _dio.get(_url);
-      print("receita aleatoria ${response}"  );
       if(response.statusCode != 200){
         print("exception");
       }
@@ -20,7 +19,6 @@ class ApiProvider {
 //pesquisarPorCertaRecetia
   Future<FoodModel> searchCertainRecipe(String recipeName) async{
       Response response = await _dio.get("${_baseUrlForRecipe}${recipeName}");
-      print(response.data);
       if(response.statusCode != 200){
         print("exception");
       }

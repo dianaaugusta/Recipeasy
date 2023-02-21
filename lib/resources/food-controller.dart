@@ -1,4 +1,10 @@
 class FoodController {
+  List<String> categories = [
+    "primeiro",
+    "segundo",
+    "terceiro"
+  ];
+
   String returnImageCategoryIconUrl(String categoryName) {
     switch (categoryName) {
       case "Dessert":
@@ -26,5 +32,15 @@ class FoodController {
           
     }
     return "https://cdn-icons-png.flaticon.com/512/57/57108.png";
+  }
+
+  String listFoodCategoriesToFilter(){
+      
+      if(categories.isNotEmpty){
+          for(var i = 0; i < categories.length; i++){
+          return categories[i];
+        }
+      }
+      return "Sem categoria definida";
   }
 }

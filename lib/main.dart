@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:generic_business_app/pages/food-main.dart';
+import 'package:generic_business_app/resources/food-controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -17,13 +18,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.deepOrange,
           fontFamily: GoogleFonts.abel().fontFamily),
-      home: const FoodFilterChoice(),
+      home: FoodFilterChoice(),
     );
   }
 }
 
 class FoodFilterChoice extends StatelessWidget {
-  const FoodFilterChoice({super.key});
+  final FoodController _controller = FoodController();
+  FoodFilterChoice({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +65,17 @@ class FoodFilterChoice extends StatelessWidget {
                             color: Colors.deepOrange,
                             child: FloatingActionButton.extended(
                               onPressed: () {},
-                              label: Text("TESTE"),
+                              label: Text(
+                                _controller.listFoodCategoriesToFilter(),
+                                style: TextStyle(color: Colors.black),
+                              ),
                               backgroundColor: Colors.white,
                             ),
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) =>
                             const Divider(),
-                        itemCount: 10),
+                        itemCount: _controller.categories.length),
                   ),
                 ),
               ],

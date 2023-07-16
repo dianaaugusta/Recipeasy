@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:generic_business_app/pages/food-main.dart';
 import 'package:generic_business_app/resources/food-controller.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.deepOrange,
-          fontFamily: GoogleFonts.abel().fontFamily),
+          fontFamily: 'Roboto'
+      ),
       home: FoodFilterChoice(),
     );
   }
@@ -44,7 +44,7 @@ class FoodFilterChoice extends StatelessWidget {
               ),
             ),
             const Text(
-              "Seu app de inspiração culinária",
+              "Your app for cooking inspiration",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -64,7 +64,14 @@ class FoodFilterChoice extends StatelessWidget {
                             width: 200,
                             color: Colors.deepOrange,
                             child: FloatingActionButton.extended(
-                              onPressed: () {},
+                              onPressed: () {
+                                  if(index == 0){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const FoodMainPage()),
+                                    );
+                                  }
+                              },
                               label: Text(
                                 _controller.listFoodCategoriesToFilter(),
                                 style: TextStyle(color: Colors.black),

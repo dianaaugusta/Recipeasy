@@ -1,4 +1,3 @@
-import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -108,7 +107,7 @@ class _BuildFormState extends State<BuildForm> {
                     alignLabelWithHint: true,
                     contentPadding: EdgeInsets.all(10),
                     errorMaxLines: 1,
-                    hintText: 'Pesquise receita por...',
+                    hintText: 'Search recipe by name...',
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -196,7 +195,7 @@ class _BuildCardState extends State<BuildCard> {
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         widget.model.meals?[index].strMeal ??
-                                            "nomeal",
+                                            "No meal found",
                                         style: const TextStyle(
                                           fontSize: 20,
                                           fontStyle: FontStyle.italic,
@@ -226,7 +225,7 @@ class _BuildCardState extends State<BuildCard> {
                                         Text(
                                           widget.model.meals?[index]
                                                   .strCategory ??
-                                              "Sem Categoria",
+                                              "Not categorized",
                                           style: const TextStyle(
                                             fontSize: 10,
                                           ),
@@ -244,8 +243,8 @@ class _BuildCardState extends State<BuildCard> {
                                         onPressed: () => hideShowRecipe(),
                                         child: Text(
                                           isShow
-                                              ? 'Esconder Receita'
-                                              : 'Mostrar Receita',
+                                              ? 'Show Recipe'
+                                              : 'Hide Recipe',
                                           style: const TextStyle(fontSize: 10),
                                         ),
                                       ),
@@ -253,7 +252,7 @@ class _BuildCardState extends State<BuildCard> {
                                         padding: const EdgeInsets.only(left: 8.0),
                                         child: Expanded(
                                           child: Text(
-                                            "${widget.model.meals?[index].strSource ?? "Sem Fonte"}",
+                                            "${widget.model.meals?[index].strSource ?? "No source found"}",
                                             maxLines: 1,
                                             softWrap: false,
                                             overflow: TextOverflow.ellipsis ,
@@ -271,7 +270,7 @@ class _BuildCardState extends State<BuildCard> {
                                     child: Text(
                                       widget.model.meals?[index]
                                               .strInstructions ??
-                                          "Receita indisponível :(",
+                                          "Unavailable recipe :(",
                                       style: const TextStyle(
                                         fontSize: 10,
                                       ),

@@ -53,7 +53,7 @@ class FoodFilterChoice extends StatelessWidget {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     height: 100.0,
                     child: ListView.separated(
@@ -64,6 +64,7 @@ class FoodFilterChoice extends StatelessWidget {
                             width: 200,
                             color: Colors.deepOrange,
                             child: FloatingActionButton.extended(
+                              heroTag: "button$index",
                               onPressed: () {
                                   if(index == 0){
                                     Navigator.push(
@@ -74,7 +75,7 @@ class FoodFilterChoice extends StatelessWidget {
                               },
                               label: Text(
                                 _controller.listFoodCategoriesToFilter(),
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                               backgroundColor: Colors.white,
                             ),

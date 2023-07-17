@@ -155,14 +155,14 @@ class _BuildCardState extends State<BuildCard> {
       child: Column(
         children: [
           const BuildForm(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: widget.model.meals?.length ?? 1,
-                itemBuilder: ((context, index) {
-                  return Stack(
+          ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: widget.model.meals?.length ?? 1,
+              itemBuilder: ((context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
                     children: [
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.50,
@@ -250,14 +250,12 @@ class _BuildCardState extends State<BuildCard> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 8.0),
-                                        child: Expanded(
-                                          child: Text(
-                                            "${widget.model.meals?[index].strSource ?? "No source found"}",
-                                            maxLines: 1,
-                                            softWrap: false,
-                                            overflow: TextOverflow.ellipsis ,
-                                            style: const TextStyle(fontSize: 10),
-                                          ),
+                                        child: Text(
+                                          "${widget.model.meals?[index].strSource ?? "No source found"}",
+                                          maxLines: 1,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis ,
+                                          style: const TextStyle(fontSize: 10),
                                         ),
                                       )
                                     ],
@@ -283,9 +281,9 @@ class _BuildCardState extends State<BuildCard> {
                         ),
                       ),
                     ],
-                  );
-                })),
-          ),
+                  ),
+                );
+              })),
         ],
       ),
     );

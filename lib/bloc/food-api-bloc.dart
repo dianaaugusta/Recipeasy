@@ -17,7 +17,7 @@ class FoodApiBloc extends Bloc<FoodApiEvent, FoodApiState>{
         emit(FoodApiLoaded(foodList));
       }
       on NetworkError{
-        emit(FoodApiError("Falha na conexao"));
+        emit(FoodApiError("Connection Failed"));
       }
     }));
 
@@ -28,7 +28,7 @@ class FoodApiBloc extends Bloc<FoodApiEvent, FoodApiState>{
         emit(FoodApiLoaded(foodList));
       }
       on NetworkError{
-        emit(FoodApiError("Falha na conexao"));
+        emit(FoodApiError("Connection Failed"));
       }
     }));
   }

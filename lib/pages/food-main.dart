@@ -1,4 +1,4 @@
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -79,7 +79,6 @@ class _BuildFormState extends State<BuildForm> {
   final FoodController controller = FoodController();
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     recipeInputController.dispose();
     super.dispose();
   }
@@ -148,7 +147,7 @@ class BuildCard extends StatefulWidget {
 
 class _BuildCardState extends State<BuildCard> {
   final FoodController controller = FoodController();
-  bool isShow = true;
+  bool isHide = true;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -156,134 +155,136 @@ class _BuildCardState extends State<BuildCard> {
         children: [
           const BuildForm(),
           ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: widget.model.meals?.length ?? 1,
-              itemBuilder: ((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.50,
-                        width: MediaQuery.of(context).size.width,
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: Image.network(
-                              "${widget.model.meals?[index].strMealThumb}",
-                              ),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: widget.model.meals?.length ?? 1,
+            itemBuilder: ((context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.50,
+                      width: MediaQuery.of(context).size.width,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: Image.network(
+                          "${widget.model.meals?[index].strMealThumb}",
                         ),
                       ),
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.25),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        widget.model.meals?[index].strMeal ??
-                                            "No meal found",
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontStyle: FontStyle.italic,
-                                        ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.25),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      widget.model.meals?[index].strMeal ??
+                                          "No meal found",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontStyle: FontStyle.italic,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: Image.network(
-                                            controller
-                                                .returnImageCategoryIconUrl(
-                                              widget.model.meals?[index]
-                                                      .strCategory ??
-                                                  "Miscellaneous",
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          widget.model.meals?[index]
-                                                  .strCategory ??
-                                              "Not categorized",
-                                          style: const TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                ],
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      ElevatedButton(
-                                        onPressed: () => hideShowRecipe(),
-                                        child: Text(
-                                          isShow
-                                              ? 'Show Recipe'
-                                              : 'Hide Recipe',
-                                          style: const TextStyle(fontSize: 10),
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: Image.network(
+                                          controller.returnImageCategoryIconUrl(
+                                            widget.model.meals?[index]
+                                                    .strCategory ??
+                                                "Miscellaneous",
+                                          ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          "${widget.model.meals?[index].strSource ?? "No source found"}",
-                                          maxLines: 1,
-                                          softWrap: false,
-                                          overflow: TextOverflow.ellipsis ,
-                                          style: const TextStyle(fontSize: 10),
+                                      Text(
+                                        widget.model.meals?[index]
+                                                .strCategory ??
+                                            "Not categorized",
+                                        style: const TextStyle(
+                                          fontSize: 10,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
-                                Visibility(
-                                  visible: isShow,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      widget.model.meals?[index]
-                                              .strInstructions ??
-                                          "Unavailable recipe :(",
-                                      style: const TextStyle(
-                                        fontSize: 10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => hideShowRecipe(),
+                                      child: Text(
+                                        isHide ? 'Hide Recipe' : 'Show Recipe',
+                                        style: const TextStyle(fontSize: 10),
                                       ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Text(
+                                        (widget.model.meals?[index].strSource ?.length ?? 0) <= 20 &&
+                                        (widget.model.meals?[index].strSource != null) ?
+                                        widget.model.meals![index].strSource! :
+                                        "${widget.model.meals?[index].strSource.toString().substring(0, 20)}...",
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 10),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: isHide,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget.model.meals?[index]
+                                            .strInstructions ??
+                                        "Unavailable recipe :(",
+                                    style: const TextStyle(
+                                      fontSize: 10,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                );
-              })),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ),
         ],
       ),
     );
@@ -292,8 +293,10 @@ class _BuildCardState extends State<BuildCard> {
   void hideShowRecipe() {
     setState(
       () {
-        isShow = !isShow;
-        print(isShow);
+        isHide = !isHide;
+        if (kDebugMode) {
+          print(isHide);
+        }
       },
     );
   }
